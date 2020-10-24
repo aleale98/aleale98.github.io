@@ -1,0 +1,67 @@
+body{
+	background-color: #99ff99;	
+	font-size:25px;
+}
+#hrr{
+	margin-top: -20px;
+}
+
+
+#titolo{
+	background-color:#33cc33;
+	box-shadow:5px 10px #006600;
+	margin-left:400px;
+}
+
+
+hr{
+	background-color:#ff33cc;
+	height:3px;
+}
+
+table, th, td{
+	border: 5px solid #006600;
+	border-collapse: collapse;
+	font-size:25px;
+	
+}
+table{
+	margin-left:400px;
+	width: 500px;
+	height: 150px;
+}
+
+#donna{
+	margin-left:200px;
+	width: 450px;
+	height: 450px;
+}
+#donno{
+	width: 450px;
+	height: 450px;
+}
+
+.element0{
+	background-color: yellow;
+}
+.element1{
+	background-color: blue;
+	
+}
+.element2{
+	background-color: #339933;
+}
+.element3{
+	background-color: red;
+}
+.element4{
+	background-color: #9900cc;
+}
+
+h3 {
+	margin-left: 400px
+}
+li{
+	margin-left: 400px
+}
+

@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  .content {
+    flex: 1;     /* this is the key; consumes all available height */
+    background: blue;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+  header {
+    height: 64px;
+    background: red;
+    text-align: center;
+  }
+  footer {
+    height: 64px;
+    background: green;
+  }
+
+  #text-div{
+      background-color: white;
+      flex-basis: 75%;
+
+  }
+  * {
+    margin: 0;
+  }
