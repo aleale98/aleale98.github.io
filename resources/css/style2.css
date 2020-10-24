@@ -1,0 +1,23 @@
+body{
+    background-color: #e6ffcc;
+}
+#element{
+    text-align: left;
+    background-color: #0b051b;
+    color: #e6ffcc;
+}
+
+#prodotto1{
+    width: 150px;
+    height: 225px;
+}
+
+#prodotto2{
+    width: 150px;
+    height: auto
+}
+
+#prodotto3{
+    width:150px;
+    height: auto;
+}
