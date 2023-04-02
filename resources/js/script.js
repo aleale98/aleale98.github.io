@@ -1,0 +1,10 @@
+$(document).ready(function(){
+    $(".container").hide();
+    $("#instagram").hide();
+    $("#more").click(function(){
+        $("#more").fadeOut(1000).promise().done(function(){
+            $(".container").fadeIn(1000);
+            $("#instagram").fadeIn(1000);
+        });
+    })
+});
