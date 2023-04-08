@@ -33,7 +33,7 @@
     width: 65%;
     height: 200px;
     transform-style: preserve-3d;
-    animation: roter 17s linear infinite;
+    animation: roter 27s linear infinite;
   }
   .rotator:hover {
     animation-play-state: paused;
