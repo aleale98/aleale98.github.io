@@ -91,12 +91,6 @@
   .items:nth-child(9) {
     transform: rotateY(calc(40deg * 9)) translateZ(300px);
   }
-
-  #instagram{
-    position: relative;
-    margin-top: 27%;
-  }
-
   
 
 .btn-21 {
@@ -232,6 +226,24 @@
   100% {
     transform: translateX(100%);
   }
+}
+
+#instagram {
+  color: #3399FF;
+  font-family: "Helvetica";
+  font-size: 10pt;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #3399FF;
+  border-radius: 3px;
+  width: 115px;
+  height: 45px;
+  position: absolute;	 
+  top: 50px;
+  left: 50px;	
+  cursor: hand;		
+  position: relative;
+  margin-top: 27%;    
 }
 
   
