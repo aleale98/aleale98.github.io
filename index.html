@@ -1,45 +1,66 @@
 <!DOCTYPE html>
-<html lang="it">
-    <head>
-        <link rel="stylesheet" href="resources/css/style.css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="resources/js/script.js"></script>
-    </head>
-    <body>
-        <h1>Iaia's world!</h1>
-        <div class="container">
-        <div class="rotator">
-            <div class="items">
-                <img src="resources/img/8.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/1.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/2.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/3.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/4.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/5.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/6.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/7.jpg" alt="Image Alt" />
-            </div>
-            <div class="items">
-                <img src="resources/img/9.jpg" alt="Image Alt" />
-            </div>
-        </div>
-    </div>
-    <a href="https://www.instagram.com/creationwithlove01/" target="_blank"><button id="instagram">Seguimi su instagram!</button></a>
-    <button id="btn21" class="btn-21"><span>Scopri di più</span></button>
-    </body>
+<html>
+<head>
+  <title>Pagina protetta</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 200px;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Inserisci la password:</h1>
+    <input type="password" id="passwordInput" />
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    function getParamFromURL(url, paramName) {
+      const queryString = url.split('?')[1];
+      const params = new URLSearchParams(queryString);
+      return params.get(paramName);
+    }
+
+    const passwordInput = document.getElementById("passwordInput");
+    const message = document.getElementById("message");
+    const soluzioni = ["1872"];
+    const indizi = ["indizio 1"];
+    const currentURL = window.location.href;
+    const numIndovinello = getParamFromURL(currentURL, "numIndovinello");
+    console.log(numIndovinello);
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+      if (password === soluzioni[numIndovinello-1]) {
+        message.textContent = indizi[numIndovinello-1];
+      } else {
+        message.textContent = "";
+      }
+    });
+  </script>
+</body>
 </html>
