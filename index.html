@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pagina protetta</title>
+  <title>Indovinelli</title>
   <style>
     body {
       background-color: #f2f2f2;
@@ -48,8 +48,15 @@
 
     const passwordInput = document.getElementById("passwordInput");
     const message = document.getElementById("message");
-    const soluzioni = ["1872"];
-    const indizi = ["indizio 1"];
+    const soluzioni = ["0655", "1872", "", "5240", "1860"];
+    const indizi = ["Non ha voce e grida fa, non ha ali e a volo va, non ha denti e morsi dà, non ha bocca e versi fa",
+    "Benvenuti a Suez, una bellissima città egiziana in cui si trova il famosissimo canale che collega il Mar Mediterraneo con l'Oceano Indiano...Nonché una tra le soste del nostro compagno di viaggio Phileas Fogg...\nQuanto è bello stare in riva al mare sotto un ombrellone a leggere un bel libro... peccato che il vento ha strappato delle pagine… chissà dove saranno finite! Potete aiutare il nostro protagonista a trovarle?",
+    "",
+  "Il nostro amico Phileas è arrivato finalmente in quel dì di Hong Kong, rinomata capitale gastronomica del mondo. A voi, cosa piace mangiare? Beh, dopo tanto cibo, ci andrebbe proprio qualcosa da bere.. chi di voi ha voglia di preparare un buon drink al signor Frogg? ",
+"In un men che non si dica il nostro amico è arrivato nel Nuovo Mondo, in particolare a San Francisco! Ah, che bella città con una bellissima prigione… tanto bella che il nostro amico ci è finito dentro… Ma il suo viaggio deve continuare e quindi, via al piano di evasione! Per poter evadere ha deciso di preparare uno zaino ma è indeciso sul cosa mettere dentro… Dopo giorni di riflessione ha deciso di portare con sé: spago, forbici, muta mimetica, pinne, boccaglio, maschera, piccozza, martello e un crocifisso… in fin dei conti, non si sa mai, un miracolo potrebbe sempre servire. Uno sguardo dall’alto fa sempre comodo. Ma siete sicuri che gli serva veramente tutto? "];
+    /* 
+
+*/
     const currentURL = window.location.href;
     const numIndovinello = getParamFromURL(currentURL, "numIndovinello");
     console.log(numIndovinello);
