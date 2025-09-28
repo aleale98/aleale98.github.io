@@ -15,8 +15,12 @@
     <h1 class="text-3xl font-bold mb-4 text-purple-700">🎉 Quiz di Indovinelli (12 domande)</h1>
     <p id="riddle" class="text-lg mb-4"></p>
     <input id="answer" type="text" placeholder="Scrivi la risposta..." class="border rounded-lg p-2 w-full mb-4">
-    <button onclick="checkAnswer()" class="bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2">Verifica</button>
-    <p id="feedback" class="mt-4 text-lg font-semibold"></p>
+    <div class="flex justify-between mb-4">
+      <button onclick="checkAnswer()" class="bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2">Verifica</button>
+      <button onclick="showHint()" class="bg-yellow-400 hover:bg-yellow-500 text-black rounded-lg px-4 py-2">Aiuto</button>
+    </div>
+    <p id="feedback" class="mt-2 text-lg font-semibold"></p>
+    <p id="hint" class="mt-2 text-sm text-blue-600"></p>
     <p id="progress" class="mt-2 text-sm text-gray-600"></p>
   </div>
 
@@ -25,18 +29,18 @@
 
   <script>
     const riddles = [
-      { q: "Non ho gambe ma corro, non ho bocca ma parlo: sono spesso cartaceo o elettronico e dico dove andare. Cosa sono?", a: ["mappa","una mappa","cartina"] },
-      { q: "Più mi togli, più divento grande. Cosa sono?", a: ["buco","un buco","foro"] },
-      { q: "Sono tuo ma lo usano gli altri più di te. Cosa sono?", a: ["nome","il tuo nome"] },
-      { q: "Mi trovi una volta in un minuto, due volte in un momento, ma mai in mille anni. Cosa sono?", a: ["lettera m","m"] },
-      { q: "Sono pieno di buchi ma tengo l'acqua. Cosa sono?", a: ["spugna","una spugna"] },
-      { q: "Più sono grande più sono piccolo. Cosa sono?", a: ["numero negativo","numeri negativi"] },
-      { q: "Se mi nomini scompaio. Cosa sono?", a: ["silenzio"] },
-      { q: "Ho città ma non case, fiumi ma non acqua, foreste ma non alberi. Cosa sono?", a: ["mappa","una mappa","cartina"] },
-      { q: "Non ho vita, ma cresco; non ho polmoni, ma ho bisogno di aria; non ho bocca ma l’acqua mi uccide. Cosa sono?", a: ["fuoco"] },
-      { q: "Più mi lavi più divento nero. Cosa sono?", a: ["lavagna"] },
-      { q: "Più mi asciugo, più mi bagno. Cosa sono?", a: ["asciugamano","asciugamani"] },
-      { q: "Perché il libro di matematica era triste?", a: ["perché aveva troppi problemi","perche aveva troppi problemi"] }
+      { q: "Non ho gambe ma corro, non ho bocca ma parlo: sono spesso cartaceo o elettronico e dico dove andare. Cosa sono?", a: ["mappa","una mappa","cartina"], hint: "È qualcosa che usi per orientarti." },
+      { q: "Più mi togli, più divento grande. Cosa sono?", a: ["buco","un buco","foro"], hint: "Scavando lo ingrandisci." },
+      { q: "Sono tuo ma lo usano gli altri più di te. Cosa sono?", a: ["nome","il tuo nome"], hint: "Gli altri ti chiamano con esso." },
+      { q: "Mi trovi una volta in un minuto, due volte in un momento, ma mai in mille anni. Cosa sono?", a: ["lettera m","m"], hint: "È una lettera." },
+      { q: "Sono pieno di buchi ma tengo l'acqua. Cosa sono?", a: ["spugna","una spugna"], hint: "La usi per lavare i piatti." },
+      { q: "Più sono grande più sono piccolo. Cosa sono?", a: ["numero negativo","numeri negativi"], hint: "È qualcosa che trovi in matematica." },
+      { q: "Se mi nomini scompaio. Cosa sono?", a: ["silenzio"], hint: "Lo rompi se parli." },
+      { q: "Ho città ma non case, fiumi ma non acqua, foreste ma non alberi. Cosa sono?", a: ["mappa","una mappa","cartina"], hint: "È un disegno del mondo." },
+      { q: "Non ho vita, ma cresco; non ho polmoni, ma ho bisogno di aria; non ho bocca ma l’acqua mi uccide. Cosa sono?", a: ["fuoco"], hint: "Serve per cucinare." },
+      { q: "Più mi lavi più divento nero. Cosa sono?", a: ["lavagna"], hint: "La trovi a scuola." },
+      { q: "Più mi asciugo, più mi bagno. Cosa sono?", a: ["asciugamano","asciugamani"], hint: "Ti serve dopo la doccia." },
+      { q: "Perché il libro di matematica era triste?", a: ["perché aveva troppi problemi","perche aveva troppi problemi"], hint: "È un gioco di parole." }
     ];
 
     let current = 0;
@@ -46,6 +50,7 @@
       document.getElementById('progress').textContent = `Domanda ${current+1} di ${riddles.length}`;
       document.getElementById('answer').value = '';
       document.getElementById('feedback').textContent = '';
+      document.getElementById('hint').textContent = '';
     }
 
     function normalize(str) {
@@ -65,6 +70,8 @@
         } else {
           document.getElementById('riddle').textContent = "Hai finito! Puoi aprire il regalo 🎁";
           document.getElementById('answer').style.display = 'none';
+          document.querySelector('button[onclick="checkAnswer()"').style.display = 'none';
+          document.querySelector('button[onclick="showHint()"').style.display = 'none';
           confetti();
         }
       } else {
@@ -72,6 +79,10 @@
         document.getElementById('feedback').classList.add('text-red-600');
         document.getElementById('wrongSound').play();
       }
+    }
+
+    function showHint() {
+      document.getElementById('hint').textContent = `💡 Suggerimento: ${riddles[current].hint}`;
     }
 
     showRiddle();
