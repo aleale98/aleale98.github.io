@@ -1,74 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-  <title>Indovinelli</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Indovinelli per Simone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
-    body {
-      background-color: #f2f2f2;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    .container {
-      margin-top: 200px;
-    }
-
-    h1 {
-      font-size: 75px;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    input[type="password"] {
-      padding: 10px;
-      font-size: 50px;
-    }
-
-    .message {
-      margin-top: 65px;
-      font-size: 75px;
-      font-weight: bold;
-      color: #333;
-    }
+    body { background: linear-gradient(135deg, #1e3a8a, #9333ea); min-height: 100vh; }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>Inserisci la password:</h1>
-    <input type="password" id="passwordInput" />
-    <div class="message" id="message"></div>
+<body class="flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-lg w-full text-center">
+    <h1 class="text-3xl font-bold mb-4 text-purple-700">🎉 Quiz di Indovinelli (12 domande)</h1>
+    <p id="riddle" class="text-lg mb-4"></p>
+    <input id="answer" type="text" placeholder="Scrivi la risposta..." class="border rounded-lg p-2 w-full mb-4">
+    <button onclick="checkAnswer()" class="bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2">Verifica</button>
+    <p id="feedback" class="mt-4 text-lg font-semibold"></p>
+    <p id="progress" class="mt-2 text-sm text-gray-600"></p>
   </div>
 
+  <audio id="correctSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="wrongSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
   <script>
-    function getParamFromURL(url, paramName) {
-      const queryString = url.split('?')[1];
-      const params = new URLSearchParams(queryString);
-      return params.get(paramName);
+    const riddles = [
+      { q: "Non ho gambe ma corro, non ho bocca ma parlo: sono spesso cartaceo o elettronico e dico dove andare. Cosa sono?", a: ["mappa","una mappa","cartina"] },
+      { q: "Più mi togli, più divento grande. Cosa sono?", a: ["buco","un buco","foro"] },
+      { q: "Sono tuo ma lo usano gli altri più di te. Cosa sono?", a: ["nome","il tuo nome"] },
+      { q: "Mi trovi una volta in un minuto, due volte in un momento, ma mai in mille anni. Cosa sono?", a: ["lettera m","m"] },
+      { q: "Sono pieno di buchi ma tengo l'acqua. Cosa sono?", a: ["spugna","una spugna"] },
+      { q: "Più sono grande più sono piccolo. Cosa sono?", a: ["numero negativo","numeri negativi"] },
+      { q: "Se mi nomini scompaio. Cosa sono?", a: ["silenzio"] },
+      { q: "Ho città ma non case, fiumi ma non acqua, foreste ma non alberi. Cosa sono?", a: ["mappa","una mappa","cartina"] },
+      { q: "Non ho vita, ma cresco; non ho polmoni, ma ho bisogno di aria; non ho bocca ma l’acqua mi uccide. Cosa sono?", a: ["fuoco"] },
+      { q: "Più mi lavi più divento nero. Cosa sono?", a: ["lavagna"] },
+      { q: "Più mi asciugo, più mi bagno. Cosa sono?", a: ["asciugamano","asciugamani"] },
+      { q: "Perché il libro di matematica era triste?", a: ["perché aveva troppi problemi","perche aveva troppi problemi"] }
+    ];
+
+    let current = 0;
+
+    function showRiddle() {
+      document.getElementById('riddle').textContent = riddles[current].q;
+      document.getElementById('progress').textContent = `Domanda ${current+1} di ${riddles.length}`;
+      document.getElementById('answer').value = '';
+      document.getElementById('feedback').textContent = '';
     }
 
-    const passwordInput = document.getElementById("passwordInput");
-    const message = document.getElementById("message");
-    const soluzioni = ["0655", "1872", "1", "5240", "1860", "1933"];
-    const indizi = ["Non ha voce e grida fa, non ha ali e a volo va, non ha denti e morsi dà, non ha bocca e versi fa",
-    "Benvenuti a Suez, una bellissima città egiziana in cui si trova il famosissimo canale che collega il Mar Mediterraneo con l'Oceano Indiano...Nonché una tra le soste del nostro compagno di viaggio Phileas Fogg...\nQuanto è bello stare in riva al mare sotto un ombrellone a leggere un bel libro... peccato che il vento ha strappato delle pagine… chissà dove saranno finite! Potete aiutare il nostro protagonista a trovarle?",
-    "Il nostro compagno di viaggio Phileas (sì, da ora in avanti abbiamo abbastanza confidenza da poterlo chiamare per nome) è appena giunto alla città di Calcutta, famosa per il Victoria Memorial hall, la chiesa di St. John, il museo indiano, il mercato dei fiori, Il ponte Howrah, il giardino botanico, la casa di Tagore ed il tempio di Kali. Girando per la città, viene attratto da un biglietto luccicante per terra. Sul biglietto trova scritto: Ho gambe, ma non cammino. Ho schiena, ma non ho testa. Sono in ogni scuola ed in ogni casa e all'ora di pranzo sto intorno alla tavola, senza mangiare. Chi sono? Aiutalo a risolvere questo indovinello per trovare il prossimo indizio!",
-  "Il nostro amico Phileas è arrivato finalmente in quel dì di Hong Kong, rinomata capitale gastronomica del mondo. A voi, cosa piace mangiare? Beh, dopo tanto cibo, ci andrebbe proprio qualcosa da bere.. chi di voi ha voglia di preparare un buon drink al signor Frogg? ",
-"In un men che non si dica il nostro amico è arrivato nel Nuovo Mondo, in particolare a San Francisco! Ah, che bella città con una bellissima prigione… tanto bella che il nostro amico ci è finito dentro… Ma il suo viaggio deve continuare e quindi, via al piano di evasione! Per poter evadere ha deciso di preparare uno zaino ma è indeciso sul cosa mettere dentro… Dopo giorni di riflessione ha deciso di portare con sé: spago, forbici, muta mimetica, pinne, boccaglio, maschera, piccozza, martello e un crocifisso… in fin dei conti, non si sa mai, un miracolo potrebbe sempre servire. Uno sguardo dall’alto fa sempre comodo. Ma siete sicuri che gli serva veramente tutto? ",
-"benvenuti nella Grande Mela! Grazie al vostro aiuto Phileas è riuscito a scappare dall’antica prigione di Alcatraz e a recarsi qui; purtroppo per lui però si è perso. Certo che forse non è stata l’idea migliore del mondo intraprendere un viaggio con questo poco senso dell’orientamento… Preso dalla disperazione, decide di provare a comunicare al suo maggiordomo la sua posizione dicendogli il nome del quartiere affinchè lo vada a recuperare… sapete, WhatsApp non andava molto di moda! Questo è il messaggio ricevuto dal maggiordomo: ... - .- - . -. / .. ... .-.. .- -. -.. \n Dove è finito Phileas? Avete capito quale strumento e quale codice ha usato per comunicare con il suo maggiordomo Ugo? Per “salvare le vostre anime” cercate un modo per chiedere il prossimo indizio ad Ila e Ale. "];
-    /* 
+    function normalize(str) {
+      return str.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").trim();
+    }
 
-*/
-    const currentURL = window.location.href;
-    const numIndovinello = getParamFromURL(currentURL, "numIndovinello");
-    console.log(numIndovinello);
-    passwordInput.addEventListener("input", () => {
-      const password = passwordInput.value;
-      if (password === soluzioni[numIndovinello-1]) {
-        message.textContent = indizi[numIndovinello-1];
+    function checkAnswer() {
+      const userAnswer = normalize(document.getElementById('answer').value);
+      const correct = riddles[current].a.some(ans => normalize(ans) === userAnswer);
+      if (correct) {
+        document.getElementById('feedback').textContent = "✅ Corretto!";
+        document.getElementById('feedback').classList.add('text-green-600');
+        document.getElementById('correctSound').play();
+        current++;
+        if (current < riddles.length) {
+          setTimeout(showRiddle, 1200);
+        } else {
+          document.getElementById('riddle').textContent = "Hai finito! Puoi aprire il regalo 🎁";
+          document.getElementById('answer').style.display = 'none';
+          confetti();
+        }
       } else {
-        message.textContent = "";
+        document.getElementById('feedback').textContent = "❌ Riprova!";
+        document.getElementById('feedback').classList.add('text-red-600');
+        document.getElementById('wrongSound').play();
       }
-    });
+    }
+
+    showRiddle();
   </script>
 </body>
 </html>
